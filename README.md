@@ -1,334 +1,247 @@
-<<<<<<< HEAD
-# DJI Tello SDK Project
+# DJI Tello Controller
 
-A Python project for programming and controlling DJI Tello drones using the djitellopy SDK.
+A professional Python SDK for controlling DJI Tello drones with advanced flight patterns, computer vision capabilities, and comprehensive safety features.
 
-## Features
+![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Status](https://img.shields.io/badge/status-active-success.svg)
 
-- **Basic Flight Control**: Takeoff, landing, movement in all directions
-- **Camera Streaming**: Live video feed with photo capture capabilities
-- **Advanced Maneuvers**: Complex flight patterns, flips, and autonomous navigation
-- **Safety Features**: Battery monitoring, emergency stop, error handling
-- **Computer Vision**: OpenCV integration for image processing
+## 🚁 Features
 
-## Project Structure
+- **✈️ Advanced Flight Control**: Takeoff, landing, precise movement in all directions
+- **📷 Real-time Camera Streaming**: Live video feed with photo capture capabilities  
+- **🎯 Complex Flight Patterns**: Automated sequences, geometric patterns, and custom maneuvers
+- **🛡️ Safety First**: Comprehensive battery monitoring, emergency protocols, and error handling
+- **👁️ Computer Vision Ready**: OpenCV integration for image processing and autonomous navigation
+- **📊 Flight Data**: Real-time telemetry and flight status monitoring
+
+## 📁 Project Structure
 
 ```
-dji_tello/
+tello_controller/
 ├── src/
-│   ├── tello_controller.py    # Main drone control class
-│   └── utils.py               # Utility functions
+│   ├── tello_controller.py    # Core drone control interface
+│   ├── flight_control.py      # Advanced flight pattern implementations
+│   └── utils.py              # Helper functions and utilities
 ├── examples/
-│   ├── basic_flight.py        # Simple takeoff, movement, and landing
-│   ├── camera_demo.py         # Video streaming and photo capture
-│   └── advanced_flight.py     # Complex patterns and maneuvers
-├── tests/
-├── requirements.txt           # Python dependencies
-└── README.md                 # This file
+│   ├── basic_flight_demo.py   # Simple takeoff, movement, and landing demo
+│   └── advanced_patterns.py   # Complex flight patterns and maneuvers
+├── photos/                    # Captured drone photos
+├── tests/                     # Unit tests and test fixtures
+├── requirements.txt          # Python dependencies
+└── README.md                # Project documentation
 ```
 
-## Prerequisites
+## 🔧 Prerequisites
 
-- DJI Tello drone
-- Python 3.7 or higher
-- WiFi connection to Tello
+- DJI Tello or Tello EDU drone
+- Python 3.8 or higher
+- WiFi-enabled computer
+- Well-ventilated, open flying area
 
-## Installation
+## 🚀 Quick Start
 
-1. **Clone or download this project**
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/curohn/tello_controller.git
+   cd tello_controller
+   ```
 
 2. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Connect to Tello WiFi**:
-   - Turn on your Tello drone
-   - Connect your computer to the Tello WiFi network (usually named "TELLO-XXXXXX")
+3. **Connect to Tello**:
+   - Power on your Tello drone
+   - Connect your computer to the Tello WiFi network (TELLO-XXXXXX)
+   - Wait for solid connection light
 
-## Quick Start
+### Basic Usage
 
-### Basic Flight
+Run the basic flight demonstration:
 ```bash
-python examples/basic_flight.py
+python examples/basic_flight_demo.py
 ```
-This demonstrates:
-- Connection to drone
-- Battery check
-- Takeoff and landing
-- Basic movements (forward, back, rotate)
 
-### Camera Demo
+Experience advanced flight patterns:
 ```bash
-python examples/camera_demo.py
+python examples/advanced_patterns.py
 ```
-Features:
-- Live video stream
-- Photo capture (press 's')
-- In-flight takeoff/landing (press 't'/'l')
-- Quit with 'q'
 
-### Advanced Flight
-```bash
-python examples/advanced_flight.py
-```
-Includes:
-- Square and circular flight patterns
-- Flip demonstrations
-- Coordinated movements
+## 💻 API Reference
 
-## Safety Guidelines
-
-⚠️ **Important Safety Notes:**
-- Always fly in open areas away from people and obstacles
-- Keep spare batteries charged
-- Monitor battery levels (land when below 20%)
-- Understand local drone regulations
-- Have manual control ready for emergencies
-
-## API Usage
-
-### Basic Controller Usage
+### Core Controller
 
 ```python
 from src.tello_controller import TelloController
 
-# Initialize and connect
-controller = TelloController()
-controller.connect()
+# Initialize controller
+drone = TelloController()
 
-# Basic flight
-controller.takeoff()
-controller.tello.move_forward(50)  # Move 50cm forward
-controller.land()
-
-# Cleanup
-controller.disconnect()
+# Connect and perform basic flight
+if drone.connect():
+    drone.takeoff()
+    drone.move_forward(100)  # Move 100cm forward
+    drone.rotate_clockwise(90)  # Turn 90 degrees
+    drone.land()
+    drone.disconnect()
 ```
 
-### Available Commands
-
-**Movement Commands:**
-- `move_forward(distance)`, `move_back(distance)`
-- `move_left(distance)`, `move_right(distance)`
-- `move_up(distance)`, `move_down(distance)`
-- `rotate_clockwise(degrees)`, `rotate_counter_clockwise(degrees)`
-
-**Advanced Commands:**
-- `flip(direction)` - directions: 'l', 'r', 'f', 'b'
-- `go_xyz_speed(x, y, z, speed)` - Move to coordinates
-- `curve_xyz_speed(...)` - Curved flight paths
-
-**Camera Commands:**
-- `streamon()`, `streamoff()` - Control video stream
-- `get_frame_read()` - Get frame reader object
-
-**Status Commands:**
-- `get_battery()` - Battery percentage
-- `get_height()` - Current height in cm
-- `get_temperature()` - Internal temperature
-- `get_speed_x/y/z()` - Current speeds
-
-## Troubleshooting
-
-**Connection Issues:**
-- Ensure Tello is powered on and in WiFi mode
-- Check WiFi connection to Tello network
-- Try restarting both drone and application
-
-**Import Errors:**
-- Install dependencies: `pip install -r requirements.txt`
-- Check Python version (3.7+ required)
-
-**Flight Issues:**
-- Check battery level (minimum 20% recommended)
-- Ensure sufficient space for maneuvers
-- Calibrate drone if drifting occurs
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Add tests for new functionality
-4. Submit a pull request
-
-## License
-
-This project is open source. Please follow local drone regulations and use responsibly.
-
-## Resources
-
-- [DJI Tello Official Documentation](https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf)
-- [djitellopy GitHub Repository](https://github.com/damiafuentes/DJITelloPy)
-- [OpenCV Documentation](https://docs.opencv.org/)
-
----
-
-=======
-# DJI Tello SDK Project
-
-A Python project for programming and controlling DJI Tello drones using the djitellopy SDK.
-
-## Features
-
-- **Basic Flight Control**: Takeoff, landing, movement in all directions
-- **Camera Streaming**: Live video feed with photo capture capabilities
-- **Advanced Maneuvers**: Complex flight patterns, flips, and autonomous navigation
-- **Safety Features**: Battery monitoring, emergency stop, error handling
-- **Computer Vision**: OpenCV integration for image processing
-
-## Project Structure
-
-```
-dji_tello/
-├── src/
-│   ├── tello_controller.py    # Main drone control class
-│   └── utils.py               # Utility functions
-├── examples/
-│   ├── basic_flight.py        # Simple takeoff, movement, and landing
-│   ├── camera_demo.py         # Video streaming and photo capture
-│   └── advanced_flight.py     # Complex patterns and maneuvers
-├── tests/
-├── requirements.txt           # Python dependencies
-└── README.md                 # This file
-```
-
-## Prerequisites
-
-- DJI Tello drone
-- Python 3.7 or higher
-- WiFi connection to Tello
-
-## Installation
-
-1. **Clone or download this project**
-
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Connect to Tello WiFi**:
-   - Turn on your Tello drone
-   - Connect your computer to the Tello WiFi network (usually named "TELLO-XXXXXX")
-
-## Quick Start
-
-### Basic Flight
-```bash
-python examples/basic_flight.py
-```
-This demonstrates:
-- Connection to drone
-- Battery check
-- Takeoff and landing
-- Basic movements (forward, back, rotate)
-
-### Camera Demo
-```bash
-python examples/camera_demo.py
-```
-Features:
-- Live video stream
-- Photo capture (press 's')
-- In-flight takeoff/landing (press 't'/'l')
-- Quit with 'q'
-
-### Advanced Flight
-```bash
-python examples/advanced_flight.py
-```
-Includes:
-- Square and circular flight patterns
-- Flip demonstrations
-- Coordinated movements
-
-## Safety Guidelines
-
-⚠️ **Important Safety Notes:**
-- Always fly in open areas away from people and obstacles
-- Keep spare batteries charged
-- Monitor battery levels (land when below 20%)
-- Understand local drone regulations
-- Have manual control ready for emergencies
-
-## API Usage
-
-### Basic Controller Usage
+### Advanced Flight Control
 
 ```python
-from src.tello_controller import TelloController
+from src.flight_control import FlightController
 
-# Initialize and connect
-controller = TelloController()
-controller.connect()
+# Initialize advanced controller
+controller = FlightController()
 
-# Basic flight
-controller.takeoff()
-controller.tello.move_forward(50)  # Move 50cm forward
-controller.land()
-
-# Cleanup
-controller.disconnect()
+if controller.connect():
+    # Execute predefined patterns
+    controller.fly_square_pattern(100)  # 100cm square
+    controller.fly_circle_pattern(50)   # 50cm radius circle
+    controller.perform_flip_sequence()  # Multiple flips
+    
+    controller.disconnect()
 ```
 
 ### Available Commands
 
-**Movement Commands:**
-- `move_forward(distance)`, `move_back(distance)`
-- `move_left(distance)`, `move_right(distance)`
-- `move_up(distance)`, `move_down(distance)`
-- `rotate_clockwise(degrees)`, `rotate_counter_clockwise(degrees)`
+| Category | Command | Description |
+|----------|---------|-------------|
+| **Movement** | `move_forward(distance)` | Move forward by distance (cm) |
+| | `move_back(distance)` | Move backward by distance (cm) |
+| | `move_left(distance)` | Move left by distance (cm) |
+| | `move_right(distance)` | Move right by distance (cm) |
+| | `move_up(distance)` | Move up by distance (cm) |
+| | `move_down(distance)` | Move down by distance (cm) |
+| **Rotation** | `rotate_clockwise(degrees)` | Rotate clockwise |
+| | `rotate_counter_clockwise(degrees)` | Rotate counter-clockwise |
+| **Advanced** | `flip(direction)` | Perform flip ('l', 'r', 'f', 'b') |
+| | `go_xyz_speed(x, y, z, speed)` | Move to coordinates with speed |
+| **Camera** | `streamon()` | Enable video streaming |
+| | `streamoff()` | Disable video streaming |
+| | `take_picture()` | Capture and save photo |
+| **Status** | `get_battery()` | Get battery percentage |
+| | `get_height()` | Get current height (cm) |
+| | `get_temperature()` | Get internal temperature |
 
-**Advanced Commands:**
-- `flip(direction)` - directions: 'l', 'r', 'f', 'b'
-- `go_xyz_speed(x, y, z, speed)` - Move to coordinates
-- `curve_xyz_speed(...)` - Curved flight paths
+## 🛡️ Safety Guidelines
 
-**Camera Commands:**
-- `streamon()`, `streamoff()` - Control video stream
-- `get_frame_read()` - Get frame reader object
+> **⚠️ SAFETY FIRST**: Always prioritize safety when operating drones
 
-**Status Commands:**
-- `get_battery()` - Battery percentage
-- `get_height()` - Current height in cm
-- `get_temperature()` - Internal temperature
-- `get_speed_x/y/z()` - Current speeds
+- **🏞️ Environment**: Fly only in open areas away from people, buildings, and obstacles
+- **🔋 Battery**: Monitor battery levels constantly; land when below 20%
+- **📡 Connection**: Maintain strong WiFi connection; have manual override ready
+- **🌤️ Weather**: Avoid flying in windy, rainy, or poor visibility conditions
+- **📋 Regulations**: Understand and comply with local drone regulations
+- **👥 Supervision**: Never leave drone unattended during operation
 
-## Troubleshooting
+## 🔧 Configuration
 
-**Connection Issues:**
-- Ensure Tello is powered on and in WiFi mode
-- Check WiFi connection to Tello network
-- Try restarting both drone and application
+### Environment Variables
 
-**Import Errors:**
-- Install dependencies: `pip install -r requirements.txt`
-- Check Python version (3.7+ required)
+Create a `.env` file for custom configurations:
+```env
+TELLO_TIMEOUT=10
+PHOTO_DIRECTORY=photos
+LOG_LEVEL=INFO
+```
 
-**Flight Issues:**
-- Check battery level (minimum 20% recommended)
-- Ensure sufficient space for maneuvers
-- Calibrate drone if drifting occurs
+### Safety Limits
 
-## Contributing
+Default safety parameters can be configured in `src/utils.py`:
+- Minimum battery level: 20%
+- Maximum flight height: 100m
+- Connection timeout: 10 seconds
 
-1. Fork the repository
-2. Create a feature branch
-3. Add tests for new functionality
-4. Submit a pull request
+## 🐛 Troubleshooting
 
-## License
+### Common Issues
 
-This project is open source. Please follow local drone regulations and use responsibly.
+**Connection Problems**
+- ✅ Ensure Tello is powered and in WiFi mode
+- ✅ Verify computer connection to Tello network
+- ✅ Check for interference from other WiFi networks
+- ✅ Restart drone and retry connection
 
-## Resources
+**Flight Issues**
+- ✅ Confirm battery level above 20%
+- ✅ Calibrate drone on flat surface before flight
+- ✅ Check for adequate flying space
+- ✅ Verify no GPS interference (indoor flying)
 
-- [DJI Tello Official Documentation](https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf)
-- [djitellopy GitHub Repository](https://github.com/damiafuentes/DJITelloPy)
-- [OpenCV Documentation](https://docs.opencv.org/)
+**Import/Installation Issues**
+- ✅ Confirm Python 3.8+ installation
+- ✅ Reinstall dependencies: `pip install -r requirements.txt --force-reinstall`
+- ✅ Check virtual environment activation
+
+## 🧪 Testing
+
+Run the test suite:
+```bash
+python -m pytest tests/
+```
+
+Run with coverage:
+```bash
+python -m pytest tests/ --cov=src/
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### Development Setup
+
+```bash
+# Clone your fork
+git clone https://github.com/yourusername/tello_controller.git
+cd tello_controller
+
+# Install development dependencies
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+
+# Install pre-commit hooks
+pre-commit install
+```
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **DJI** for creating the Tello drone platform
+- **[djitellopy](https://github.com/damiafuentes/DJITelloPy)** - Python SDK for Tello drones
+- **OpenCV** - Computer vision capabilities
+- **Community contributors** who have helped improve this project
+
+## 📚 Resources
+
+- [DJI Tello SDK 2.0 Documentation](https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf)
+- [djitellopy Documentation](https://djitellopy.readthedocs.io/)
+- [OpenCV Python Tutorials](https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html)
+- [Drone Safety Guidelines](https://www.faa.gov/uas/recreational_fliers/)
 
 ---
 
->>>>>>> dea707e300b8a0d0602dd0c7554e56810d0958fe
-**Happy Flying! 🚁**
+<div align="center">
+
+**Happy Flying! 🚁✨**
+
+*Built with ❤️ for drone enthusiasts and developers*
+
+[![GitHub stars](https://img.shields.io/github/stars/curohn/tello_controller.svg?style=social&label=Star)](https://github.com/curohn/tello_controller)
+[![GitHub forks](https://img.shields.io/github/forks/curohn/tello_controller.svg?style=social&label=Fork)](https://github.com/curohn/tello_controller/fork)
+
+</div>
